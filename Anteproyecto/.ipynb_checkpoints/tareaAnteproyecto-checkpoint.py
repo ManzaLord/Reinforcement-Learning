@@ -42,7 +42,9 @@ class Pesca1D(gym.Env):
 		)
 		#
 		reward = harvest
-		observation = self.normalize(B)
+        print(12)
+    	observation = self.normalize(B)
+        print(13)
 		#
 		terminated = self.t > self.T
 		truncated = False
