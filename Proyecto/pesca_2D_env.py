@@ -2,11 +2,19 @@ import gymnasium as gym
 import numpy as np
 
 class Pesca1D(gym.Env):
-    def __init__(self, r, sigma=0.05, init_B=0.5, T=200):
-        self.r = r
-        self.sigma = sigma
-        self.init_B = init_B
-        self.T = T
+    """
+    params = 
+    {
+    r, sigma=0.05, init_B=0.5, T=200, mortalidad, C, epsilon
+    }"""
+    def __init__(self, params):
+        self.r = params{"r"}
+        self.sigma = params{"sigma"}
+        self.init_B = params{"init_B"}
+        self.T = params{"T"}
+        self.mort = params{"mortalidad"}
+        self.C = params{"C"}
+        self.eps = params{"epsilon"}
 
         self.observation_space = gym.spaces.Box(
             low=np.array([-1.0], dtype=np.float32),
@@ -37,19 +45,18 @@ class Pesca1D(gym.Env):
         harvest = self.B * harvest_fraction
 
         # dinámica
-        self.B = (
-            self.B
-            + self.r * self.B * (1 - self.B)
-            - harvest
-        )
+        self.B[0] = self.B[0] + self.r[0] * self.B[0] (1 - self.B[0]) - self.B[0] * self.B[1} * self.mort
 
-        self.B += self.sigma * self.np_random.normal()
+        self.B[1] = self.B[1] + self.r[1] * self.B[1] * (1 - self.B[1] / (self.B[0] * self.C[1] + self.eps))
+        
+
+        #self.B += self.sigma * self.np_random.normal()
 
         self.B = np.clip(self.B, 0.0, 1.0)
 
-        reward = harvest
+        reward = 0.1 * self.B[1]
 
-        observation = np.array([self.normalize(self.B)], dtype=np.float32)
+        observation = np.array([self.normalize(self.B[0])], dtype=np.float32)
 
         self.t += 1
 
