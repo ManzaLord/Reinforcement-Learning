@@ -36,7 +36,7 @@ class Pesca2D(gym.Env):
 
         self.t = 0
 
-        return np.array([self.normalize(self.B)], dtype=np.float32), {}
+        return np.array([self.normalize(self.B[0])], dtype=np.float32), {}
 
     def step(self, action):
         action = float(action[0])
@@ -45,15 +45,15 @@ class Pesca2D(gym.Env):
         harvest = self.B * harvest_fraction
 
         # dinámica
-        self.B[0] = self.B[0] + self.r[0] * self.B[0] (1 - self.B[0]) - self.B[0] * self.B[1] * self.mort[0]
+        self.B[0] = self.B[0] + self.r[0] * self.B[0] * (1 - self.B[0]) - self.B[0] * self.B[1] * self.mort[0]
 
-        self.B[1] = self.B[1] + self.r[1] * self.B[1] * (1 - self.B[1] / (self.B[0] * self.C[1] + self.eps))
+        self.B[1] = self.B[1] + self.r[1] * self.B[1] * (1 - self.B[1] / (self.B[0] * self.C + self.eps))
         
         #self.B += self.sigma * self.np_random.normal()
 
         self.B = np.clip(self.B, 0.0, 1.0)
 
-        reward = 0.1 * self.B[1]
+        reward = 0.1 * self.B[0]
 
         observation = np.array([self.normalize(self.B[0])], dtype=np.float32)
 
