@@ -2,11 +2,6 @@ import gymnasium as gym
 import numpy as np
 
 class Pesca2D(gym.Env):
-    """
-    params = 
-    {
-    r, sigma=0.05, init_B=0.5, T=200, mortalidad, C, epsilon
-    }"""
     def __init__(self, params):
         self.r = params["r_crecimiento"]
         self.sigma = params["sigma"]
