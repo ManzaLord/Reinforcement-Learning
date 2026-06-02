@@ -186,16 +186,16 @@ class Pesca4D(gym.Env):
         B_init = np.copy(self.B)
 
         #Evolucion de B0
-        self.B[0] = B_init[0] + self.r[0] * B_init[0] * (1 - B_init[0] / (1 - self.arrastre[0] * B_init[1])) - self.mort[0] * B_init[0] * B_init[3] - harvest
+        self.B[0] = B_init[0] + (self.r[0] * B_init[0] * (1 - B_init[0] / (1 - self.arrastre[0] * B_init[1])) - self.mort[0] * B_init[0] * B_init[3]) * np.random.normal(1, 0.1) - harvest
 
         #Evolucion de B1
-        self.B[1] = B_init[1] + self.r[1] * B_init[1] * (1 - B_init[1] / (1 - self.arrastre[0] * B_init[0])) - self.mort[1] * B_init[1] * B_init[2]
+        self.B[1] = B_init[1] + (self.r[1] * B_init[1] * (1 - B_init[1] / (1 - self.arrastre[0] * B_init[0])) - self.mort[1] * B_init[1] * B_init[2]) * np.random.normal(1, 0.1)
 
         #Evolucion de B2
-        self.B[2] = B_init[2] + self.r[2] * B_init[2] * B_init[1] * (1 - B_init[2] / (1 - self.arrastre[1] * B_init[3]))
+        self.B[2] = B_init[2] + (self.r[2] * B_init[2] * B_init[1] * (1 - B_init[2] / (1 - self.arrastre[1] * B_init[3]))) * np.random.normal(1, 0.1)
 
         #Evolucion de B3
-        self.B[3] = B_init[3] + self.r[3] * B_init[3] * B_init[0] * (1 - B_init[3] / (1 - self.arrastre[1] * B_init[2]))
+        self.B[3] = B_init[3] + (self.r[3] * B_init[3] * B_init[0] * (1 - B_init[3] / (1 - self.arrastre[1] * B_init[2]))) * np.random.normal(1, 0.1)
 
         #Normaliza las evoluciones
         self.B = np.clip(self.B, 0.0, 1.0)
