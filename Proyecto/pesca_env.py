@@ -155,7 +155,7 @@ class Pesca4D(gym.Env):
         self.observation_space = gym.spaces.Box(
         low=-1.0,
         high=1.0,
-        shape=(4,),
+        shape=(1,),
         dtype=np.float32
         )
 
@@ -173,7 +173,7 @@ class Pesca4D(gym.Env):
 
         self.t = 0
 
-        observation = np.array([self.normalize(self.B[0]), self.normalize(self.B[1]), self.normalize(self.B[2]), self.normalize(self.B[3])], dtype=np.float32)
+        observation = np.array([self.normalize(self.B[0])], dtype=np.float32)
 
         return observation, {}
 
@@ -205,7 +205,7 @@ class Pesca4D(gym.Env):
         reward = harvest + 0.4 * self.B[3]
 
         #Define la observacion que devuelve
-        observation = np.array([self.normalize(self.B[0]), self.normalize(self.B[1]), self.normalize(self.B[2]), self.normalize(self.B[3])], dtype=np.float32)
+        observation = np.array([self.normalize(self.B[0])], dtype=np.float32)
 
         #Evolucion temporal
         self.t += 1
