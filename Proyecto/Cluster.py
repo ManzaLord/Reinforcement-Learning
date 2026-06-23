@@ -1,10 +1,10 @@
 from pesca_env import Pesca4D
 import numpy as np
-import matplotlib.pyplot as plt
 import gymnasium as gym
 from stable_baselines3 import PPO
 from sb3_contrib import RecurrentPPO
 from stable_baselines3.common.env_util import make_vec_env
+from huggingface_hub import HfApi, login
 
 """
 Orden de los datos
@@ -79,77 +79,20 @@ def init_agent(env, model, training=False, name="pesca_4D"):
         
     return agent
 
-def time_evolution(env, agent, model, N=200, accion=True):
-    #Reinicia el environment
-    obs, _ = env.reset()
-
-    #Guarda la evolucion de las poblaciones
-    data_B = np.zeros((N,len(env.B)))
-    rewards = np.zeros(N)
-    reward_acuml = 0    
-
-    if model == "RecurrentPPO":
-        lstm_states = None
-        episode_starts = np.ones((1,), dtype=bool)
-
-    #Evolucion natural
-    if accion != True:
-        for i in range(N):
-            
-            action = np.array([-1])
-            
-            #Calcula un step del environment segun la acción
-            obs, reward, terminated, truncated, _ = env.step(action)
-
-            #Registra la población de cada paso
-            data_B[i] = env.B.copy()
-        
-            #Registra los rewards de cada paso
-            rewards[i] = reward
-        
-    else:
-        if model == "PPO":
-            
-            for i in range(N):
-                #Realiza la accion del modelo PPO
-                action, _ = agent.predict(obs, deterministic=True)
-
-                #Calcula un step del environment segun la acción
-                obs, reward, terminated, truncated, _ = env.step(action)
-
-                #Registra la población de cada paso
-                data_B[i] = env.B.copy()
+def subir_a_hub(local_file, repo_id, commit_message="Subiendo modelo PPO"):
+    api = HfApi()
     
-                #Registra los rewards de cada paso
-                rewards[i] = reward
-                reward_acuml += reward        
-        
-        elif model == "RecurrentPPO":
-            for i in range(N):
-                #Realiza la accion del modelo PPO
-                action, lstm_states = agent.predict(
-                    obs,
-                    state=lstm_states,
-                    episode_start=episode_starts,
-                    deterministic=True
-                )
-
-                episode_starts = np.zeros((1,), dtype=bool)
-
-                #Calcula un step del environment segun la acción
-                obs, reward, terminated, truncated, _ = env.step(action)
-
-                if terminated or truncated:
-                    episode_starts = np.ones((1,), dtype=bool)
-            
-                #Registra la población de cada paso
-                data_B[i] = env.B.copy()
-                
-                #Registra los rewards de cada paso
-                reward_acuml += reward        
-                rewards[i] = reward
+    # Crear repo si no existe
+    api.create_repo(repo_id=repo_id, exist_ok=True)
     
-    return reward_acuml
+    # Subir archivo
+    api.upload_file(
+        path_or_fileobj=local_file,
+        path_in_repo=local_file,
+        repo_id=repo_id,
+        commit_message=commit_message
+    )
+    print(f"Modelo subido exitosamente a {repo_id}")
 
 #Inicializa el ambiente
 env = Pesca4D(params)
@@ -157,3 +100,4 @@ env = Pesca4D(params)
 #Inicializa el agente
 agentPPO = init_agent(env,"PPO", training=False)
 agentRecPPO = init_agent(env, "RecurrentPPO", training=False)
+subir_a_hub("RecurrentPPO_pesca_4D", "Esporrasm/PPO_y_RecPPOrepo_id")

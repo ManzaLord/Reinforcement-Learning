@@ -1,0 +1,13 @@
+name: pesca_env
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.10
+  - numpy
+  - gymnasium
+  - pip
+  - pip:
+    - stable-baselines3
+    - sb3-contrib
+    - huggingface_hub
