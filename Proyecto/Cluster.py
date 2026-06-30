@@ -4,7 +4,6 @@ import gymnasium as gym
 from stable_baselines3 import PPO
 from sb3_contrib import RecurrentPPO
 from stable_baselines3.common.env_util import make_vec_env
-from huggingface_hub import HfApi, login
 
 """
 Orden de los datos
@@ -98,6 +97,7 @@ def subir_a_hub(local_file, repo_id, commit_message="Subiendo modelo PPO"):
 env = Pesca4D(params)
 
 #Inicializa el agente
-agentPPO = init_agent(env,"PPO", training=False)
-agentRecPPO = init_agent(env, "RecurrentPPO", training=False)
-subir_a_hub("RecurrentPPO_pesca_4D", "Esporrasm/PPO_y_RecPPOrepo_id")
+agentPPO = init_agent(env,"PPO", training=True)
+agentRecPPO = init_agent(env, "RecurrentPPO", training=True)
+#subir_a_hub("RecurrentPPO_pesca_4D", "Esporrasm/PPO_y_RecPPOrepo_id")
+#subir_a_hub("PPO_pesca_4D", "Esporrasm/PPO_y_RecPPOrepo_id")
