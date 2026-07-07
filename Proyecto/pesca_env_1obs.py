@@ -140,7 +140,7 @@ class Pesca2D(gym.Env):
         return (qty + 1) / 2
 
 #Dos depredadores y dos presas [Presa1, Presa2, Depredador1, Depredador2]
-class Pesca4D(gym.Env):
+class Pesca4D_1obs(gym.Env):
     def __init__(self, params):
         self.r = params["r_crecimiento"]
         self.sigma = params["sigma"]
