@@ -1,4 +1,4 @@
-from pesca_env import Pesca4D
+from pesca_env2 import Pesca4D
 import numpy as np
 import gymnasium as gym
 from stable_baselines3 import PPO
@@ -65,7 +65,7 @@ def init_agent(env, model, training=False, name="pesca_4D"):
             agent.learn(total_timesteps=10000000)
             
             #Guarda el modelo
-            agent.save("PPO_" + name)  
+            agent.save("PPO4_" + name)  
 
     else:
         if model == "RecurrentPPO":
