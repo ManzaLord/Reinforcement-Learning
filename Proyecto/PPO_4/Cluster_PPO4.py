@@ -52,7 +52,7 @@ def init_agent(env, model, training=False, name="pesca_4D"):
             agent = RecurrentPPO("MlpLstmPolicy", env, verbose=1, device="cuda")
         
             #Entrena el modelo
-            agent.learn(total_timesteps=5000)
+            agent.learn(total_timesteps=5000000)
         
             #Guarda el modelo
             agent.save("RecurrentPPO_" + name)
@@ -62,7 +62,7 @@ def init_agent(env, model, training=False, name="pesca_4D"):
             agent = PPO("MlpPolicy", env, verbose=1, device="cuda")
             
             #Entrena el modelo
-            agent.learn(total_timesteps=25000)
+            agent.learn(total_timesteps=10000000)
             
             #Guarda el modelo
             agent.save("PPO_" + name)  
@@ -78,26 +78,9 @@ def init_agent(env, model, training=False, name="pesca_4D"):
         
     return agent
 
-def subir_a_hub(local_file, repo_id, commit_message="Subiendo modelo PPO"):
-    api = HfApi()
-    
-    # Crear repo si no existe
-    api.create_repo(repo_id=repo_id, exist_ok=True)
-    
-    # Subir archivo
-    api.upload_file(
-        path_or_fileobj=local_file,
-        path_in_repo=local_file,
-        repo_id=repo_id,
-        commit_message=commit_message
-    )
-    print(f"Modelo subido exitosamente a {repo_id}")
 
 #Inicializa el ambiente
 env = Pesca4D(params)
 
 #Inicializa el agente
 agentPPO = init_agent(env,"PPO", training=True)
-agentRecPPO = init_agent(env, "RecurrentPPO", training=True)
-#subir_a_hub("RecurrentPPO_pesca_4D", "Esporrasm/PPO_y_RecPPOrepo_id")
-#subir_a_hub("PPO_pesca_4D", "Esporrasm/PPO_y_RecPPOrepo_id")
