@@ -9,9 +9,9 @@ El agente interactúa con un entorno de poblaciones interdependientes, donde obs
 
 ## Integrantes:
 
--Jefersson Manzanares Fernández
+- Jefersson Manzanares Fernández
 
--Esteban Porras Marín
+- Esteban Porras Marín
 
 ## Librerías o dependencias necesarias:
 - Numpy
