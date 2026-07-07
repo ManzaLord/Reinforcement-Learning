@@ -8,6 +8,7 @@ Implementación
 El agente interactúa con un entorno de poblaciones interdependientes, donde observa el estado actual del ecosistema y decide la tasa de extracción en cada periodo. A través de una red neuronal, el agente aprende estrategias que permiten anticipar las consecuencias de sus acciones, optimizando su comportamiento mediante la interacción repetida en el ambiente simulado.
 
 Integrantes:
+
 Jefersson Manzanares Fernández
 
 Esteban Porras Marín
@@ -22,5 +23,6 @@ Librerías o dependencias necesarias:
 
 Resultados Obtenidos:
 
-Licencia
+Licencia:
+
 Este proyecto es de uso académico para la asignatura de Computación Avanzada.
